@@ -1,0 +1,42 @@
+#!/bin/bash  
+
+# Create_script
+
+# Is there an arguement? 
+if [[ ! $1 ]]; then  
+    echo "Missing Arguement"
+    exit 1
+fi
+
+
+scriptname="$1"
+bindir="${HOME}/bin"
+filename="${bindir}/${scriptname}"
+
+if [[ -e $filename ]]; then
+    echo "File ${filename} already exists"
+    exit 1
+fi
+if type "$scriptname"; then
+    echo "There is alread a command with name ${scriptname}"
+    exit 1
+fi
+# Check bin directory exists
+#if [[ ! -d $bindir ]]; then
+        #if not: create bin directory
+        #echo "created ${bindir}"
+    #else 
+        #echo "Could not create ${bindir}"
+       # exit 1
+    #fi
+
+# Create a script with a single line 
+echo '#!/bin/bash' > "$filename"
+# Add executable permissions 
+chmod u+x "$filename"
+# Open with editor
+if [[ $EDITOR ]]; then
+    $EDITOR "$filename"
+else 
+    echo "Script created; not starting editor because \$EDITOR is not set."
+fi
